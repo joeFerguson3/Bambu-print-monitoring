@@ -29,6 +29,8 @@ def on_connect(client, userdata, flags, rc):
 
 # Gets printer status
 def on_message(client, userdata, msg):
+    global status
+    status = (f"Message from {msg.topic}: {msg.payload.decode()}")
     print(f"Message from {msg.topic}: {msg.payload.decode()}")
 
 #Setup MQTT client
@@ -64,12 +66,16 @@ def print_file():
     # Send request
     client.publish(REQUEST_TOPIC, json.dumps(payload))
 
-
-    
+# Prints requested file
 @app.route('/print-file', methods=['POST'])
 def print_request():
     print_file()
     return "Printing file", 200
+
+# Returns printer status
+@app.route('/status', methods=['POST'])
+def status():
+    return status, 200
 
 if __name__ == '__main__':
     app.run(port=5000)

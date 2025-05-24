@@ -9,23 +9,28 @@ import java.net.URL;
 public class UI {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Bambu");
-        JButton printButton = new JButton("Print");
+        JButton printButton = new JButton("print");
+        JButton statusButton = new JButton("status");
 
-        printButton.addActionListener(e -> sendRequest());
+        printButton.addActionListener(e -> sendRequest("print-file"));
+        statusButton.addActionListener(e -> sendRequest("status"));
 
         frame.add(printButton);
+        frame.add(statusButton);
         frame.setSize(300, 100);
         frame.setLayout(null);
         printButton.setBounds(80, 20, 140, 30);
+        statusButton.setBounds(80, 60, 140, 30);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
+
     // Sends the request to be completed by the server
-    private static void sendRequest() {
+    private static void sendRequest(String request) {
         try {
             // Sets the url to send request to and opens connection
-            String route = "print-file";
+            String route = request;
             URL url = new URL("http://localhost:5000/" + route);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
