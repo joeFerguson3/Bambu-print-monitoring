@@ -4,10 +4,16 @@ import ssl
 import json
 import time
 
-# Printer details
-PRINTER_IP = ""
-ACCESS_CODE = ""
-SERIAL_NUMBER = ""
+
+# Gets printer details
+with open("printer-details.txt", "r") as file:
+    PRINTER_IP = (file.readline()).strip()
+    ACCESS_CODE = (file.readline()).strip()
+    SERIAL_NUMBER = (file.readline()).strip()
+
+print("IP: " + PRINTER_IP)
+print("ACCESS CODE: " + ACCESS_CODE)
+print("SERIAL NUMBER: " + SERIAL_NUMBER)
 REQUEST_TOPIC = f"device/{SERIAL_NUMBER}/request"
 
 
@@ -17,7 +23,7 @@ def on_connect(client, userdata, flags, rc):
         # Subscribe to status reports
         client.subscribe(f"device/{SERIAL_NUMBER}/report")
 
-        # file to print
+        # File to print
         payload = {
             "print": {
                 "command": "project_file",
@@ -29,7 +35,7 @@ def on_connect(client, userdata, flags, rc):
                 "flow_cali": False,
                 "bed_leveling": True,
                 "layer_inspect": True,
-                "vibration_cali": False
+                "vibration_cali": False,
             }
         }
 
