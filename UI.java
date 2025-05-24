@@ -59,7 +59,7 @@ public class UI {
             StringBuilder content = new StringBuilder();
             while ((line = in.readLine()) != null) {
                 content.append(line);
-                temp.setText(line);
+                statusUpdate(line);
             }
 
             in.close();
@@ -74,7 +74,9 @@ public class UI {
     }
 
     // Updates printer status
-    private void statusUpdate(){
-
+    private static void statusUpdate(String data){
+        int start = data.indexOf("nozzle_temper");
+        String temp_value = data.substring(start + 15, start + 18);
+        temp.setText("nozzle temp: " + temp_value +"C");
     }
 }
