@@ -5,10 +5,10 @@ import json
 import time
 
 # Printer details
-PRINTER_IP = ''
-ACCESS_CODE = ''
-SERIAL_NUMBER = ''
-REQUEST_TOPIC = f'device/{SERIAL_NUMBER}/request'
+PRINTER_IP = ""
+ACCESS_CODE = ""
+SERIAL_NUMBER = ""
+REQUEST_TOPIC = f"device/{SERIAL_NUMBER}/request"
 
 
 def on_connect(client, userdata, flags, rc):
@@ -17,11 +17,20 @@ def on_connect(client, userdata, flags, rc):
         # Subscribe to status reports
         client.subscribe(f"device/{SERIAL_NUMBER}/report")
 
-
+        # file to print
         payload = {
-                "system": {
-                    "command": "bed_leveling"
-                }
+            "print": {
+                "command": "project_file",
+                "url": "file:///sdcard/test.3mf",
+                "param": "Metadata/plate_1.gcode",
+                "subtask_id": "0",
+                "use_ams": False,
+                "timelapse": False,
+                "flow_cali": False,
+                "bed_leveling": True,
+                "layer_inspect": True,
+                "vibration_cali": False
+            }
         }
 
         # Send request
@@ -30,9 +39,11 @@ def on_connect(client, userdata, flags, rc):
     else:
         print(f"Connection failed: {rc}")
 
+
 # Gets printer status
 def on_message(client, userdata, msg):
     print(f"Message from {msg.topic}: {msg.payload.decode()}")
+
 
 # Set up client
 client = mqtt.Client()
