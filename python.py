@@ -1,4 +1,4 @@
-# connects printer and sends/recieves messages
+from flask import Flask, request
 import paho.mqtt.client as mqtt
 import ssl
 import json
