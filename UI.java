@@ -7,24 +7,34 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class UI {
+
+    static JLabel temp;
     public static void main(String[] args) {
         JFrame frame = new JFrame("Bambu");
         JButton printButton = new JButton("print");
         JButton statusButton = new JButton("status");
+        temp = new JLabel("Hello, World!");
+        createItems();
 
         printButton.addActionListener(e -> sendRequest("print-file"));
         statusButton.addActionListener(e -> sendRequest("status"));
 
+        frame.add(temp);
         frame.add(printButton);
         frame.add(statusButton);
         frame.setSize(300, 100);
         frame.setLayout(null);
         printButton.setBounds(80, 20, 140, 30);
         statusButton.setBounds(80, 60, 140, 30);
+        temp.setBounds(80, 90, 140, 30);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-
+    
+    // Creates jframe elements
+    private static void createItems(){
+       
+    }
 
     // Sends the request to be completed by the server
     private static void sendRequest(String request) {
@@ -49,6 +59,7 @@ public class UI {
             StringBuilder content = new StringBuilder();
             while ((line = in.readLine()) != null) {
                 content.append(line);
+                temp.setText(line);
             }
 
             in.close();
@@ -60,5 +71,10 @@ public class UI {
         } catch (Exception e) {
             System.out.println("Could not complete request");
         }
+    }
+
+    // Updates printer status
+    private void statusUpdate(){
+
     }
 }
