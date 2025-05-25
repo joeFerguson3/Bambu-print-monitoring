@@ -84,13 +84,18 @@ public class UI {
     // Updates printer status
     private static void statusUpdate(String data){
         // Displays nozzle temp
-        int startNozzle = data.indexOf("nozzle_nozzleTemper");
-        String nozzleTemp_value = data.substring(startNozzle + 15, startNozzle + 18);
-        nozzleTemp.setText("nozzle nozzleTemp: " + nozzleTemp_value +"C");
+        int startNozzle = data.indexOf("nozzle_temper");
+        if(startNozzle != -1){
+            String nozzleTemp_value = data.substring(startNozzle + 15, startNozzle + 18);
+            nozzleTemp.setText("nozzle temp: " + nozzleTemp_value +"C");
+        }
 
         //Displays bed temp
-        int startBed = data.indexOf("nozzle_nozzleTemper");
-        String bedTemp_value = data.substring(startBed + 15, startBed + 18);
-        nozzleTemp.setText("nozzle nozzleTemp: " + bedTemp_value +"C");
+        if(startNozzle != -1){
+            System.out.println(data);
+            int startBed = data.indexOf("bed_temper");
+            String bedTemp_value = data.substring(startBed + 12, startBed + 15);
+            bedTemp.setText("bed temp: " + bedTemp_value +"C");
+        }
     }
 }

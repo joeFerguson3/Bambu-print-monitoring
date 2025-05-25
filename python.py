@@ -4,6 +4,14 @@ import ssl
 import json
 import time
 
+import bambulabs_api as bl
+
+printer = bl.Printer('192.168.137.70', '59842718', '03919C443001827')
+printer.connect()
+
+print(printer.get_state())
+printer.turn_light_on()
+
 app = Flask(__name__)
 
 # Gets printer details
